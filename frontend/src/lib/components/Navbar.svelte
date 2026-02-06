@@ -25,6 +25,12 @@
     setLanguage(lang);
     isLangDropdownOpen = false;
   }
+  function handleWindowClick(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (!target.closest('[class*="relative"]')) {
+      isLangDropdownOpen = false;
+    }
+  }
 </script>
 
 <nav class="bg-white border-b border-gray-100 py-3 md:py-4 px-4 md:px-6 fixed w-full z-10 top-0 shadow-sm">
@@ -115,9 +121,4 @@
 </nav>
 
 <!-- Close dropdowns when clicking outside -->
-<svelte:window on:click={(e) => {
-  const target = e.target as HTMLElement;
-  if (!target.closest('[class*="relative"]')) {
-    isLangDropdownOpen = false;
-  }
-}} />
+<svelte:window on:click={handleWindowClick} />
