@@ -15,6 +15,7 @@ from typing import Dict, Any
 # Import admin routes
 from admin_routes import router as admin_router
 from database import init_db, get_db
+from init_db import create_default_data
 from models import Settings
 from sqlalchemy.orm import Session
 from fastapi import Depends
@@ -26,6 +27,8 @@ app = FastAPI()
 async def startup_event():
     # Initialize database
     init_db()
+    # Create default admin user and settings
+    create_default_data()
     print("✓ Database initialized")
     
     # Cleanup old files
