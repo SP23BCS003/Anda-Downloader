@@ -1,6 +1,6 @@
-# Use Node.js 24 (required by SvelteKit packages: >=24)
+# Use Node.js 20 (compatible with downgraded packages)
 [phases.setup]
-nixPkgs = ["nodejs_24"]
+nixPkgs = ["nodejs_20"]
 
 [phases.install]
 cmds = ["npm install"]
