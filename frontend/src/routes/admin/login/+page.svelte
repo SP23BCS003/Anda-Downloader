@@ -2,6 +2,7 @@
   import { goto } from '$app/navigation';
   import { browser } from '$app/environment';
   import { onMount } from 'svelte';
+  import { API_BASE_URL } from '$lib/api';
 
   let username = '';
   let password = '';
@@ -26,7 +27,7 @@
     error = '';
 
     try {
-      const res = await fetch('http://localhost:8000/admin/login', {
+      const res = await fetch(`${API_BASE_URL}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
