@@ -14,7 +14,10 @@ from typing import Dict, Any
 
 # Import admin routes
 from admin_routes import router as admin_router
-from database import init_db
+from database import init_db, get_db
+from models import Settings
+from sqlalchemy.orm import Session
+from fastapi import Depends
 
 app = FastAPI()
 
@@ -170,6 +173,14 @@ def process_download(job_id: str, url: str, format_id: str, start_time: str = No
 @app.get("/")
 def read_root():
     return {"status": "ok", "service": "Video Downloader Backend"}
+
+@app.get("/api/public-settings")
+def get_public_settings(db: Session = Depends(get_db)):
+    """Get public settings (favicon, robots.txt, etc.)"""
+    keys = ["favicon_url", "verification_tags", "robots_txt", "site_name", "site_tagline", "analytics_id"]
+    settings = db.query(Settings).filter(Settings.key.in_(keys)).all()
+    result = {s.key: s.value for s in settings}
+    return result
 
 @app.post("/info")
 async def get_info(request: UrlRequest):

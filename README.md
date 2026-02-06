@@ -44,18 +44,7 @@ A modern, full-featured video downloader application with admin panel, multi-lan
 - **Error Handling**: User-friendly error messages
 - **Loading States**: Clear feedback during operations
 
-## 🚀 Deployment
-
-**⚠️ Important**: This is a split-stack application.
-- **Frontend**: Perfect for Vercel/Netlify.
-- **Backend**: Requires persistent hosting (Render, Railway, VPS) for video processing and database.
-
-👉 **[Read the Full Deployment Guide](DEPLOYMENT.md)**
-
-### Quick Summary
-1. **Frontend** → Deploy to **Vercel**.
-2. **Backend** → Deploy to **Render** (using the provided `Dockerfile`).
-3. Connect them by setting `PUBLIC_API_URL` in frontend environment variables.
+## 🚀 Quick Start
 
 ### Prerequisites
 - Python 3.12+

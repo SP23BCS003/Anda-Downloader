@@ -1,7 +1,0 @@
-docker
-.venv
-__pycache__
-*.db
-*.sqlite
-downloads/
-.env

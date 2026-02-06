@@ -1,6 +1,96 @@
 # Deployment Guide for Anda-Downloader
 
-This guide outlines the steps to deploy the Anda-Downloader application on a Linux server (Ubuntu 22.04 LTS is recommended).
+This guide outlines the steps to deploy the Anda-Downloader application. Two deployment options are covered:
+1. **Railway (Recommended)** - Quick PaaS deployment
+2. **VPS/Linux Server** - Traditional server deployment
+
+---
+
+## 🚀 Railway Deployment (Recommended)
+
+Railway provides a simple, scalable deployment platform with automatic SSL and CI/CD.
+
+### Prerequisites
+- GitHub account with your repository
+- Railway account (https://railway.app)
+- Git installed locally
+
+### Step 1: Prepare Your Repository
+
+Ensure your `.gitignore` excludes:
+```
+.env
+*.db
+node_modules/
+.venv/
+__pycache__/
+build/
+```
+
+Push all changes to GitHub:
+```bash
+git add .
+git commit -m "Prepare for Railway deployment"
+git push origin main
+```
+
+### Step 2: Deploy Backend Service
+
+1. Go to [Railway Dashboard](https://railway.app/dashboard)
+2. Click **"New Project"** → **"Deploy from GitHub Repo"**
+3. Select your repository
+4. Click **"Add Service"** → **"GitHub Repo"** (same repo)
+5. Configure the backend service:
+   - Click on the service → **Settings**
+   - Set **Root Directory**: `backend`
+   - Railway auto-detects Python and uses the `Procfile`
+
+6. Add Environment Variables (Settings → Variables):
+   ```
+   SECRET_KEY=your-secure-random-string-here
+   ```
+
+7. Railway will automatically build and deploy
+
+### Step 3: Deploy Frontend Service
+
+1. Add another service to the same project
+2. Click **"Add Service"** → **"GitHub Repo"** (same repo)
+3. Configure the frontend service:
+   - Set **Root Directory**: `frontend`
+   - Set **Build Command**: `npm install && npm run build`
+   - Set **Start Command**: `node build/index.js`
+
+4. Get your backend's Railway URL (e.g., `https://backend-xxx.railway.app`)
+5. Add Environment Variable:
+   ```
+   VITE_API_URL=https://your-backend-service.railway.app
+   ```
+
+### Step 4: Configure Domain (Optional)
+
+1. In Railway, select your frontend service
+2. Go to **Settings** → **Networking** → **Generate Domain**
+3. Or add your custom domain
+
+### Step 5: Verify Deployment
+
+1. Open your frontend URL
+2. Paste a video URL (e.g., YouTube)
+3. Verify video info loads and download works
+
+### Railway Environment Variables Reference
+
+| Service | Variable | Description |
+|---------|----------|-------------|
+| Backend | `SECRET_KEY` | JWT secret key |
+| Backend | `DATABASE_URL` | (Optional) PostgreSQL URL |
+| Frontend | `VITE_API_URL` | Backend service URL |
+
+---
+
+## 💻 Traditional VPS Deployment
+
 
 ## 📋 Server Requirements
 

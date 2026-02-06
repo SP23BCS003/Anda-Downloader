@@ -9,6 +9,9 @@ import re
 from database import get_db
 from models import Admin, Blog, Settings, SEOConfig
 from admin_auth import hash_password, verify_password, create_access_token, decode_access_token
+import os
+import glob
+import shutil
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 security = HTTPBearer()
@@ -66,6 +69,11 @@ class SettingUpdate(BaseModel):
     value: str
     type: str = "string"
     description: Optional[str] = None
+
+class AdminUpdate(BaseModel):
+    username: Optional[str] = None
+    password: Optional[str] = None
+    current_password: str
 
 class SEOUpdate(BaseModel):
     page: str
@@ -130,6 +138,73 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
         token_type="bearer",
         username=admin.username
     )
+
+@router.put("/profile")
+def update_profile(
+    profile: AdminUpdate,
+    db: Session = Depends(get_db),
+    admin: Admin = Depends(get_current_admin)
+):
+    """Update admin username and password"""
+    # Verify current password
+    if not verify_password(profile.current_password, admin.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect current password"
+        )
+    
+    if profile.username:
+        # Check if username exists
+        existing = db.query(Admin).filter(Admin.username == profile.username, Admin.id != admin.id).first()
+        if existing:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Username already taken"
+            )
+        admin.username = profile.username
+        
+    if profile.password:
+        admin.password_hash = hash_password(profile.password)
+        
+    db.commit()
+    db.refresh(admin)
+    return {"message": "Profile updated successfully"}
+
+@router.post("/cache/clear")
+def clear_cache(
+    admin: Admin = Depends(get_current_admin)
+):
+    """Clear server cache (temporary files)"""
+    count = 0
+    try:
+        # Clear temp downloads
+        for f in glob.glob("temp_*"):
+            try:
+                os.remove(f)
+                count += 1
+            except: pass
+            
+        # Clear downloads folder
+        for f in glob.glob("downloads/*"):
+            try:
+                if os.path.isfile(f):
+                    os.remove(f)
+                elif os.path.isdir(f):
+                    shutil.rmtree(f)
+                count += 1
+            except: pass
+            
+         # Clear pycache (optional, but requested "all type")
+        for f in glob.glob("**/__pycache__", recursive=True):
+            try:
+                shutil.rmtree(f)
+                count += 1
+            except: pass
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to clear cache: {str(e)}")
+        
+    return {"message": f"Cache cleared successfully. Removed {count} items."}
 
 # --- Blog Routes ---
 

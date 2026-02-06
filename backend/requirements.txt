@@ -1,6 +1,8 @@
 fastapi
-uvicorn
+uvicorn[standard]
+gunicorn
 yt-dlp
 sqlalchemy
 pyjwt
 python-multipart
+python-dotenv
