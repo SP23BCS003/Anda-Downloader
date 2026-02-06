@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "डाउनलोड कैसे करें",
+        "supportedSites": "समर्थित साइटें",
+        "faq": "सामान्य प्रश्न",
+        "language": "भाषा"
+    },
+    "hero": {
+        "title": "मुफ्त ऑनलाइन <span class=\"text-red-600\">वीडियो डाउनलोडर</span>",
+        "subtitle": "YouTube, Facebook, Instagram, TikTok और अधिक से वीडियो डाउनलोड करें।",
+        "placeholder": "अपना वीडियो लिंक यहां पेस्ट करें...",
+        "placeholderMobile": "वीडियो लिंक पेस्ट करें...",
+        "downloadButton": "डाउनलोड करें",
+        "downloadButtonMobile": "वीडियो डाउनलोड करें",
+        "pasteButton": "क्लिपबोर्ड से पेस्ट करें",
+        "paste": "पेस्ट करें",
+        "loading": "लोड हो रहा है..."
+    },
+    "errors": {
+        "fetchFailed": "वीडियो जानकारी प्राप्त करने में विफल",
+        "clipboardFailed": "क्लिपबोर्ड तक पहुंचने में असमर्थ। कृपया मैन्युअल रूप से पेस्ट करें।",
+        "invalidUrl": "कृपया एक मान्य URL दर्ज करें"
+    }
+}

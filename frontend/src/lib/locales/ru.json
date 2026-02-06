@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "Как скачать",
+        "supportedSites": "Поддерживаемые сайты",
+        "faq": "Часто задаваемые вопросы",
+        "language": "Язык"
+    },
+    "hero": {
+        "title": "Бесплатный онлайн <span class=\"text-red-600\">загрузчик видео</span>",
+        "subtitle": "Скачивайте видео с YouTube, Facebook, Instagram, TikTok и других платформ.",
+        "placeholder": "Вставьте ссылку на видео здесь...",
+        "placeholderMobile": "Вставьте ссылку на видео...",
+        "downloadButton": "Скачать",
+        "downloadButtonMobile": "Скачать видео",
+        "pasteButton": "Вставить из буфера обмена",
+        "paste": "Вставить",
+        "loading": "Загрузка..."
+    },
+    "errors": {
+        "fetchFailed": "Не удалось получить информацию о видео",
+        "clipboardFailed": "Не удается получить доступ к буферу обмена. Пожалуйста, вставьте вручную.",
+        "invalidUrl": "Пожалуйста, введите действительный URL"
+    }
+}

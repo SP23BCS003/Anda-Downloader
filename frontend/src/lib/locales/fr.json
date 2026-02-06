@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "Comment Télécharger",
+        "supportedSites": "Sites Pris en Charge",
+        "faq": "FAQ",
+        "language": "Langue"
+    },
+    "hero": {
+        "title": "Téléchargeur de Vidéos <span class=\"text-red-600\">Gratuit en Ligne</span>",
+        "subtitle": "Téléchargez des vidéos depuis YouTube, Facebook, Instagram, TikTok et plus encore.",
+        "placeholder": "Collez le lien de votre vidéo ici...",
+        "placeholderMobile": "Collez le lien vidéo...",
+        "downloadButton": "Télécharger",
+        "downloadButtonMobile": "Télécharger Vidéo",
+        "pasteButton": "Coller du presse-papiers",
+        "paste": "Coller",
+        "loading": "Chargement..."
+    },
+    "errors": {
+        "fetchFailed": "Échec de la récupération des informations vidéo",
+        "clipboardFailed": "Impossible d'accéder au presse-papiers. Veuillez coller manuellement.",
+        "invalidUrl": "Veuillez entrer une URL valide"
+    }
+}

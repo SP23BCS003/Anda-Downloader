@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "How to Download",
+        "supportedSites": "Supported Sites",
+        "faq": "FAQ",
+        "language": "Language"
+    },
+    "hero": {
+        "title": "Free Online <span class=\"text-red-600\">Video Downloader</span>",
+        "subtitle": "Download videos from YouTube, Facebook, Instagram, TikTok and more.",
+        "placeholder": "Paste your video link here...",
+        "placeholderMobile": "Paste video link...",
+        "downloadButton": "Download",
+        "downloadButtonMobile": "Download Video",
+        "pasteButton": "Paste from clipboard",
+        "paste": "Paste",
+        "loading": "Loading..."
+    },
+    "errors": {
+        "fetchFailed": "Failed to fetch video info",
+        "clipboardFailed": "Unable to access clipboard. Please paste manually.",
+        "invalidUrl": "Please enter a valid URL"
+    }
+}

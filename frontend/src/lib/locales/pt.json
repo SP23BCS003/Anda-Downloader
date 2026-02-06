@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "Como Baixar",
+        "supportedSites": "Sites Suportados",
+        "faq": "Perguntas Frequentes",
+        "language": "Idioma"
+    },
+    "hero": {
+        "title": "Downloader de Vídeo <span class=\"text-red-600\">Online Grátis</span>",
+        "subtitle": "Baixe vídeos do YouTube, Facebook, Instagram, TikTok e mais.",
+        "placeholder": "Cole o link do seu vídeo aqui...",
+        "placeholderMobile": "Cole o link do vídeo...",
+        "downloadButton": "Baixar",
+        "downloadButtonMobile": "Baixar Vídeo",
+        "pasteButton": "Colar da área de transferência",
+        "paste": "Colar",
+        "loading": "Carregando..."
+    },
+    "errors": {
+        "fetchFailed": "Falha ao obter informações do vídeo",
+        "clipboardFailed": "Não foi possível acessar a área de transferência. Por favor, cole manualmente.",
+        "invalidUrl": "Por favor, insira uma URL válida"
+    }
+}

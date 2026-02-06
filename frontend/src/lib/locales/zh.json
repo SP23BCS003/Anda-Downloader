@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "如何下载",
+        "supportedSites": "支持的网站",
+        "faq": "常见问题",
+        "language": "语言"
+    },
+    "hero": {
+        "title": "免费在线<span class=\"text-red-600\">视频下载器</span>",
+        "subtitle": "从 YouTube、Facebook、Instagram、TikTok 等平台下载视频。",
+        "placeholder": "在此粘贴您的视频链接...",
+        "placeholderMobile": "粘贴视频链接...",
+        "downloadButton": "下载",
+        "downloadButtonMobile": "下载视频",
+        "pasteButton": "从剪贴板粘贴",
+        "paste": "粘贴",
+        "loading": "加载中..."
+    },
+    "errors": {
+        "fetchFailed": "获取视频信息失败",
+        "clipboardFailed": "无法访问剪贴板。请手动粘贴。",
+        "invalidUrl": "请输入有效的网址"
+    }
+}

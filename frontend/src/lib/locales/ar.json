@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "كيفية التنزيل",
+        "supportedSites": "المواقع المدعومة",
+        "faq": "الأسئلة الشائعة",
+        "language": "اللغة"
+    },
+    "hero": {
+        "title": "محمل الفيديو <span class=\"text-red-600\">المجاني عبر الإنترنت</span>",
+        "subtitle": "قم بتنزيل مقاطع الفيديو من YouTube و Facebook و Instagram و TikTok والمزيد.",
+        "placeholder": "الصق رابط الفيديو الخاص بك هنا...",
+        "placeholderMobile": "الصق رابط الفيديو...",
+        "downloadButton": "تحميل",
+        "downloadButtonMobile": "تنزيل الفيديو",
+        "pasteButton": "لصق من الحافظة",
+        "paste": "لصق",
+        "loading": "جار التحميل..."
+    },
+    "errors": {
+        "fetchFailed": "فشل في جلب معلومات الفيديو",
+        "clipboardFailed": "غير قادر على الوصول إلى الحافظة. الرجاء اللصق يدويًا.",
+        "invalidUrl": "الرجاء إدخال عنوان URL صالح"
+    }
+}

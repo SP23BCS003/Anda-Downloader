@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "Cómo Descargar",
+        "supportedSites": "Sitios Compatibles",
+        "faq": "Preguntas Frecuentes",
+        "language": "Idioma"
+    },
+    "hero": {
+        "title": "Descargador de Videos <span class=\"text-red-600\">Gratis en Línea</span>",
+        "subtitle": "Descarga videos de YouTube, Facebook, Instagram, TikTok y más.",
+        "placeholder": "Pega el enlace de tu video aquí...",
+        "placeholderMobile": "Pega enlace de video...",
+        "downloadButton": "Descargar",
+        "downloadButtonMobile": "Descargar Video",
+        "pasteButton": "Pegar del portapapeles",
+        "paste": "Pegar",
+        "loading": "Cargando..."
+    },
+    "errors": {
+        "fetchFailed": "Error al obtener información del video",
+        "clipboardFailed": "No se puede acceder al portapapeles. Por favor pega manualmente.",
+        "invalidUrl": "Por favor ingresa una URL válida"
+    }
+}

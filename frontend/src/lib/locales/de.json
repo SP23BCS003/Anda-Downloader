@@ -1,0 +1,24 @@
+{
+    "nav": {
+        "howToDownload": "So laden Sie herunter",
+        "supportedSites": "Unterstützte Websites",
+        "faq": "Häufig gestellte Fragen",
+        "language": "Sprache"
+    },
+    "hero": {
+        "title": "Kostenloser Online <span class=\"text-red-600\">Video-Downloader</span>",
+        "subtitle": "Laden Sie Videos von YouTube, Facebook, Instagram, TikTok und mehr herunter.",
+        "placeholder": "Fügen Sie Ihren Video-Link hier ein...",
+        "placeholderMobile": "Video-Link einfügen...",
+        "downloadButton": "Herunterladen",
+        "downloadButtonMobile": "Video Herunterladen",
+        "pasteButton": "Aus Zwischenablage einfügen",
+        "paste": "Einfügen",
+        "loading": "Wird geladen..."
+    },
+    "errors": {
+        "fetchFailed": "Fehler beim Abrufen der Videoinformationen",
+        "clipboardFailed": "Zugriff auf Zwischenablage nicht möglich. Bitte manuell einfügen.",
+        "invalidUrl": "Bitte geben Sie eine gültige URL ein"
+    }
+}
