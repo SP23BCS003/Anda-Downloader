@@ -1,10 +1,12 @@
 import jwt
 import hashlib
 import secrets
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 
-SECRET_KEY = "your-secret-key-change-in-production-12345"  # Change this!
+# Use environment variable for SECRET_KEY, fallback to default for local development
+SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production-12345")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
