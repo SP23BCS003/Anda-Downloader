@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { API_BASE_URL } from '$lib/api';
 
   let stats = {
     total_blogs: 0,
@@ -16,7 +17,7 @@
   async function fetchStats() {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch('http://localhost:8000/admin/stats', {
+      const res = await fetch(`${API_BASE_URL}/admin/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

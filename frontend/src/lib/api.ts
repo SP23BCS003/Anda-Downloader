@@ -4,7 +4,8 @@
  */
 
 // Get API URL from environment variable or fallback to localhost for development
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// VITE_API_URL works on client-side, PUBLIC_API_URL works on both client and server
+export const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.PUBLIC_API_URL || 'http://localhost:8000';
 
 /**
  * Helper function to build API endpoints

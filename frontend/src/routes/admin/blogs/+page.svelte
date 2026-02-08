@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { API_BASE_URL } from '$lib/api';
 
   interface Blog {
     id: number;
@@ -33,7 +34,7 @@
   async function fetchBlogs() {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch('http://localhost:8000/admin/blogs', {
+      const res = await fetch(`${API_BASE_URL}/admin/blogs`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -63,7 +64,7 @@
   async function fetchBlogDetails(id: number) {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch(`http://localhost:8000/admin/blogs/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/admin/blogs/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -109,8 +110,8 @@
     try {
       const token = localStorage.getItem('admin_token');
       const url = editingBlog
-        ? `http://localhost:8000/admin/blogs/${editingBlog.id}`
-        : 'http://localhost:8000/admin/blogs';
+        ? `${API_BASE_URL}/admin/blogs/${editingBlog.id}`
+        : `${API_BASE_URL}/admin/blogs`;
       
       const method = editingBlog ? 'PUT' : 'POST';
 
@@ -149,7 +150,7 @@
 
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch(`http://localhost:8000/admin/blogs/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/admin/blogs/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

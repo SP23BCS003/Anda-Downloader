@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { API_BASE_URL } from '$lib/api';
 
   let pages = [
     'home',
@@ -38,7 +39,7 @@ onMount(async () => {
   async function fetchSEO() {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch('http://localhost:8000/admin/seo', {
+      const res = await fetch(`${API_BASE_URL}/admin/seo`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -68,7 +69,7 @@ onMount(async () => {
 
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch(`http://localhost:8000/admin/seo/${currentPage}`, {
+      const res = await fetch(`${API_BASE_URL}/admin/seo/${currentPage}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -1,8 +1,10 @@
 import type { RequestEvent } from '@sveltejs/kit';
+import { env } from '$env/dynamic/public';
 
 export async function GET({ fetch }: RequestEvent) {
+    const apiUrl = env.PUBLIC_API_URL || 'http://localhost:8000';
     try {
-        const res = await fetch('http://localhost:8000/api/public-settings');
+        const res = await fetch(`${apiUrl}/api/public-settings`);
         let content = 'User-agent: *\nAllow: /';
 
         if (res.ok) {

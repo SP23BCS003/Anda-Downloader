@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { API_BASE_URL } from '$lib/api';
 
   let settings: Record<string, any> = {};
   let isLoading = true;
@@ -40,7 +41,7 @@
   async function fetchSettings() {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch('http://localhost:8000/admin/settings', {
+      const res = await fetch(`${API_BASE_URL}/admin/settings`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -72,7 +73,7 @@
         description: config.label
       }));
 
-      const res = await fetch('http://localhost:8000/admin/settings', {
+      const res = await fetch(`${API_BASE_URL}/admin/settings`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -106,7 +107,7 @@
 
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch('http://localhost:8000/admin/profile', {
+      const res = await fetch(`${API_BASE_URL}/admin/profile`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -143,7 +144,7 @@
 
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await fetch('http://localhost:8000/admin/cache/clear', {
+      const res = await fetch(`${API_BASE_URL}/admin/cache/clear`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
