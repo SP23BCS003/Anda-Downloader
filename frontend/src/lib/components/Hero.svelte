@@ -83,15 +83,21 @@
           />
           <button
             on:click={pasteFromClipboard}
-            class="px-4 py-3 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-all flex items-center gap-2"
+            class="px-5 py-2 text-gray-500 hover:text-red-600 hover:bg-gray-50 rounded-2xl transition-all flex flex-col items-center justify-center border-l border-gray-100 group"
             title={t(trans, 'hero.pasteButton')}
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            {#if showPasteSuccess}
-              <span class="text-sm font-medium text-green-600">✓</span>
-            {/if}
+            <div class="relative">
+              <svg class="w-6 h-6 mb-0.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              {#if showPasteSuccess}
+                <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </span>
+              {/if}
+            </div>
+            <span class="text-[10px] uppercase font-bold tracking-wider">Paste</span>
           </button>
           <button 
             on:click={fetchInfo}
@@ -120,12 +126,13 @@
             />
             <button
               on:click={pasteFromClipboard}
-              class="p-3 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
+              class="px-4 py-3 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-all flex flex-col items-center justify-center border-l border-gray-100 min-w-[70px]"
               title={t(trans, 'hero.paste')}
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
+              <span class="text-[9px] uppercase font-bold tracking-wider leading-none">Paste</span>
             </button>
           </div>
           <button 
