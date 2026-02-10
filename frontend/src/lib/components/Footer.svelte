@@ -37,12 +37,12 @@
             <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm font-medium">
                 <li><a href="/instagram-downloader" class="hover:text-white transition-colors">Instagram Downloader</a></li>
                 <li><a href="/twitter-downloader" class="hover:text-white transition-colors">Twitter Downloader</a></li>
-                <li><a href="/pinterest-downloader" class="hover:text-white transition-colors">Pinterest Downloader</a></li>
+                <li><a href="/vimeo-downloader" class="hover:text-white transition-colors">Vimeo Downloader</a></li>
             </ul>
         </div>
     </div>
-    <div class="max-w-6xl mx-auto text-center text-xs sm:text-sm font-medium text-slate-600">
-        &copy; 2024 Anda-Downloader. All rights reserved.
+    <div class="max-w-6xl mx-auto text-center text-xs sm:text-sm font-medium text-slate-400">
+        &copy; 2026 Anda-Downloader. All rights reserved.
     </div>
 </footer>
 
