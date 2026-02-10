@@ -43,6 +43,22 @@ async def startup_event():
         print(f"Adding {ffmpeg_dir} to PATH")
         os.environ["PATH"] += os.pathsep + ffmpeg_dir
 
+    # Start auto cache cleaner background task
+    from tasks import cleanup_cache
+    
+    async def auto_cache_cleaner():
+        while True:
+            try:
+                # Wait for 24 hours (24 * 60 * 60 seconds)
+                await asyncio.sleep(24 * 60 * 60)
+                print("Running auto cache cleanup...")
+                cleanup_cache()
+            except Exception as e:
+                print(f"Auto cache cleanup error: {e}")
+                await asyncio.sleep(60) # Retry after 1 min on error
+
+    asyncio.create_task(auto_cache_cleaner())
+
 # Mount admin routes
 app.include_router(admin_router)
 

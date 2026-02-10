@@ -175,32 +175,9 @@ def clear_cache(
     admin: Admin = Depends(get_current_admin)
 ):
     """Clear server cache (temporary files)"""
-    count = 0
     try:
-        # Clear temp downloads
-        for f in glob.glob("temp_*"):
-            try:
-                os.remove(f)
-                count += 1
-            except: pass
-            
-        # Clear downloads folder
-        for f in glob.glob("downloads/*"):
-            try:
-                if os.path.isfile(f):
-                    os.remove(f)
-                elif os.path.isdir(f):
-                    shutil.rmtree(f)
-                count += 1
-            except: pass
-            
-         # Clear pycache (optional, but requested "all type")
-        for f in glob.glob("**/__pycache__", recursive=True):
-            try:
-                shutil.rmtree(f)
-                count += 1
-            except: pass
-            
+        from tasks import cleanup_cache
+        count = cleanup_cache()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to clear cache: {str(e)}")
         
