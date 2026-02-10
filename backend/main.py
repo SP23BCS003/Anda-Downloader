@@ -241,6 +241,12 @@ async def get_info(request: UrlRequest):
             # Add all found video resolutions
             for h in sorted(video_formats.keys()):
                 f = video_formats[h]
+                
+                # Fallback to filesize_approx if filesize is missing
+                filesize = f.get('filesize')
+                if not filesize:
+                    filesize = f.get('filesize_approx')
+
                 formats_out.append({
                     'label': f"{h}p ({f['ext'].upper()})",
                     'quality': f"{h}p",
@@ -251,12 +257,18 @@ async def get_info(request: UrlRequest):
                     # BUT yt-dlp often needs merging. 
                     # Safer: request bestvideo[height=X]+bestaudio/best[height=X]
                     'format_id': f"bestvideo[height={h}]+bestaudio/best[height={h}]", 
-                    'filesize': f.get('filesize')
+                    'filesize': filesize
                 })
+
+            # Better thumbnail selection
+            thumbnail = info.get('thumbnail')
+            if not thumbnail and info.get('thumbnails'):
+                # Pick the last one (usually highest res)
+                thumbnail = info['thumbnails'][-1].get('url')
 
             return {
                 "title": info.get('title'),
-                "thumbnail": info.get('thumbnail'),
+                "thumbnail": thumbnail,
                 "duration": info.get('duration'),
                 "formats": formats_out,
                 "webpage_url": info.get('webpage_url') or request.url
