@@ -17,7 +17,7 @@
 <div id="supported-sites" class="bg-white py-16 px-6 border-t border-gray-100">
     <div class="max-w-6xl mx-auto text-center">
          <h2 class="text-3xl font-bold mb-12 text-slate-800">Supported Sites</h2>
-         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
              {#each platforms as site}
                  <a href={site.url} class="group p-6 rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block {site.bg}">
                      <div class="w-12 h-12 mx-auto mb-4 {site.color} transition-transform duration-300 group-hover:scale-110">
