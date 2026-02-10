@@ -260,11 +260,14 @@ async def get_info(request: UrlRequest):
                     'filesize': filesize
                 })
 
-            # Better thumbnail selection
-            thumbnail = info.get('thumbnail')
-            if not thumbnail and info.get('thumbnails'):
-                # Pick the last one (usually highest res)
+            # Better thumbnail selection: Prefer 'thumbnails' list (last item) over single 'thumbnail' field
+            # because 'thumbnail' is often low-res or same as first item.
+            thumbnail = None
+            if info.get('thumbnails'):
                 thumbnail = info['thumbnails'][-1].get('url')
+            
+            if not thumbnail:
+                thumbnail = info.get('thumbnail')
 
             return {
                 "title": info.get('title'),
