@@ -123,11 +123,7 @@
       </form>
 
       <!-- Help Text -->
-      <div class="mt-6 text-center">
-        <p class="text-sm text-slate-500">
-          Default credentials: <span class="font-mono text-slate-700">admin / admin123</span>
-        </p>
-      </div>
+
     </div>
 
     <!-- Back to Site -->
