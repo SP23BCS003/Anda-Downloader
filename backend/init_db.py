@@ -23,6 +23,12 @@ def create_default_data():
             db.add(admin)
             print("✓ Default admin created: username='admin', password='admin123'")
             print("⚠️  IMPORTANT: Change the default password after first login!")
+        else:
+            # Force reset password if admin exists (for recovery)
+            print("Admin user found. verifying/resetting default password...")
+            admin.password_hash = hash_password("admin123")
+            db.add(admin) # Ensure it's tracked
+            print("✓ Admin password reset to 'admin123'")
         
         # Create default settings
         default_settings = [
