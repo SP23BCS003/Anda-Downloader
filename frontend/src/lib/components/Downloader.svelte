@@ -220,35 +220,60 @@
                         </table>
                     </div>
                   {:else if activeTab === 'audio'}
-                    <table class="w-full">
-                        <thead>
-                            <tr class="bg-white border-b border-gray-100 text-left text-sm font-bold text-gray-700">
-                                <th class="p-4 pl-6">File type</th>
-                                <th class="p-4">File size</th>
-                                <th class="p-4 pr-6 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-50">
-                            {#each data.formats.filter(f => f.quality === 'audio') as fmt}
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="p-4 pl-6">
+                    <!-- Mobile Card Layout -->
+                    <div class="md:hidden divide-y divide-gray-100">
+                        {#each data.formats.filter(f => f.quality === 'audio') as fmt}
+                        <div class="p-4 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-2">
                                     <span class="font-bold text-gray-800 uppercase">{fmt.ext}</span>
                                     <span class="text-gray-400">-</span>
                                     <span class="font-medium text-gray-600">128kbps</span>
-                                </td>
-                                <td class="p-4 text-gray-500 font-mono text-sm">-- MB</td>
-                                <td class="p-4 pr-6 text-right">
-                                    <button 
-                                        on:click={() => download(fmt.format_id)}
-                                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded shadow-sm transition-all hover:shadow-md"
-                                    >
-                                        Download
-                                    </button>
-                                </td>
-                            </tr>
-                            {/each}
-                        </tbody>
-                    </table>
+                                </div>
+                                <span class="text-gray-500 font-mono text-xs">-- MB</span>
+                            </div>
+                            <button 
+                                on:click={() => download(fmt.format_id)}
+                                class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-sm transition-all hover:shadow-md"
+                            >
+                                Download
+                            </button>
+                        </div>
+                        {/each}
+                    </div>
+
+                    <!-- Desktop Table Layout -->
+                    <div class="hidden md:block overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-white border-b border-gray-100 text-left text-sm font-bold text-gray-700">
+                                    <th class="p-4 pl-6">File type</th>
+                                    <th class="p-4">File size</th>
+                                    <th class="p-4 pr-6 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+                                {#each data.formats.filter(f => f.quality === 'audio') as fmt}
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 pl-6">
+                                        <span class="font-bold text-gray-800 uppercase">{fmt.ext}</span>
+                                        <span class="text-gray-400">-</span>
+                                        <span class="font-medium text-gray-600">128kbps</span>
+                                    </td>
+                                    <td class="p-4 text-gray-500 font-mono text-sm">-- MB</td>
+                                    <td class="p-4 pr-6 text-right">
+                                        <button 
+                                            on:click={() => download(fmt.format_id)}
+                                            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded shadow-sm transition-all hover:shadow-md"
+                                        >
+                                            Download
+                                        </button>
+                                    </td>
+                                </tr>
+                                {/each}
+                            </tbody>
+                        </table>
+                    </div>
                   {:else}
                      <div class="p-8 space-y-6">
                         <div class="grid md:grid-cols-2 gap-6">
