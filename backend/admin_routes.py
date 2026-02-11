@@ -121,6 +121,16 @@ def create_slug(title: str) -> str:
 def login(request: LoginRequest, db: Session = Depends(get_db)):
     """Admin login endpoint"""
     admin = db.query(Admin).filter(Admin.username == request.username).first()
+    
+    # DEBUG LOGGING
+    print(f"Login attempt for username: {request.username}")
+    if admin:
+        print(f"User found: {admin.username}, Active: {admin.is_active}")
+        is_correct = verify_password(request.password, admin.password_hash)
+        print(f"Password verification result: {is_correct}")
+    else:
+        print("User NOT found in database")
+        
     if not admin or not verify_password(request.password, admin.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
