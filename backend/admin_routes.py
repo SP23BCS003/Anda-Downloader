@@ -149,6 +149,28 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
         username=admin.username
     )
 
+@router.get("/debug-auth")
+def debug_auth(db: Session = Depends(get_db)):
+    """TEMPORARY DEBUG ENDPOINT"""
+    admins = db.query(Admin).all()
+    users = []
+    for a in admins:
+        users.append({
+            "id": a.id,
+            "username": a.username,
+            "is_active": a.is_active,
+            "hash_prefix": a.password_hash[:10] if a.password_hash else "None",
+            "verifies_admin123": verify_password("admin123", a.password_hash)
+        })
+    
+    return {
+        "cwd": os.getcwd(),
+        "db_path": os.path.abspath("downloader.db") if os.path.exists("downloader.db") else "Not found in CWD",
+        "backend_db_path": os.path.abspath("backend/downloader.db") if os.path.exists("backend/downloader.db") else "Not found in backend/",
+        "users": users,
+        "test_hash": hash_password("test")
+    }
+
 @router.put("/profile")
 def update_profile(
     profile: AdminUpdate,
