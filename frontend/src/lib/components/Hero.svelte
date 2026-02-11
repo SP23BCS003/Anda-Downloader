@@ -138,7 +138,7 @@
           <button 
             on:click={fetchInfo}
             disabled={isLoading}
-            class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold text-base transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            class="w-auto px-8 mx-auto py-3 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold text-base transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {#if isLoading}
               <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -147,7 +147,7 @@
               </svg>
               {t(trans, 'hero.loading')}
             {:else}
-              {t(trans, 'hero.downloadButtonMobile')} →
+              {t(trans, 'hero.downloadButtonMobile')}
             {/if}
           </button>
         </div>

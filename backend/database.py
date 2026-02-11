@@ -9,7 +9,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Use environment variable for database URL, fallback to SQLite for local development
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./downloader.db")
+if not os.getenv("DATABASE_URL"):
+    # Use absolute path for SQLite to avoid CWD ambiguity
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(base_dir, "downloader.db")
+    DATABASE_URL = f"sqlite:///{db_path}"
+    print(f"Using SQLite database at: {DATABASE_URL}")
+else:
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Handle Railway's PostgreSQL URL format (postgres:// -> postgresql://)
 if DATABASE_URL.startswith("postgres://"):
