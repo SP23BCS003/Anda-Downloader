@@ -12,7 +12,7 @@ load_dotenv()
 # Get absolute path to the directory containing this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Construct absolute path to sqlite database
-DB_PATH = os.path.join(BASE_DIR, "downloader.db")
+DB_PATH = os.path.join(BASE_DIR, "downloader_v2.db")
 
 # Use environment variable for database URL, fallback to SQLite with absolute path
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DB_PATH}")
