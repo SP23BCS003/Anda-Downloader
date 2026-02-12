@@ -121,37 +121,6 @@ def create_slug(title: str) -> str:
 def login(request: LoginRequest, db: Session = Depends(get_db)):
     """Admin login endpoint"""
     admin = db.query(Admin).filter(Admin.username == request.username).first()
-    
-    # DEBUG LOGGING
-    # DEBUG LOGGING
-    print(f"--- LOGIN ATTEMPT ---")
-    print(f"Username: '{request.username}'")
-    print(f"Password: '{request.password}'")
-    try:
-        db_url = str(db.get_bind().url)
-        print(f"Database URL: {db_url}")
-        
-        # Check absolute path if sqlite
-        if "sqlite" in db_url:
-            print(f"CWD: {os.getcwd()}")
-            if "///" in db_url:
-                rel_path = db_url.split("///")[1]
-                abs_path = os.path.abspath(rel_path)
-                print(f"Resolved DB Path: {abs_path}")
-                print(f"DB Exists: {os.path.exists(abs_path)}")
-    except Exception as e:
-        print(f"Error getting DB info: {e}")
-
-    if admin:
-        print(f"User found in DB: {admin.username}")
-        print(f"  ID: {admin.id}")
-        print(f"  Active: {admin.is_active}")
-        print(f"  Stored Hash: {admin.password_hash}")
-        is_correct = verify_password(request.password, admin.password_hash)
-        print(f"Password verification result: {is_correct}")
-    else:
-        print(f"User '{request.username}' NOT found in database")
-    print(f"---------------------")
         
     if not admin or not verify_password(request.password, admin.password_hash):
         raise HTTPException(

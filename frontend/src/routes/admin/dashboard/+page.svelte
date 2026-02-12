@@ -14,9 +14,16 @@
     await fetchStats();
   });
 
+  import { goto } from '$app/navigation';
+
   async function fetchStats() {
     try {
       const token = localStorage.getItem('admin_token');
+      if (!token) {
+        goto('/admin/login');
+        return;
+      }
+      
       const res = await fetch(`${API_BASE_URL}/admin/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -25,6 +32,9 @@
 
       if (res.ok) {
         stats = await res.json();
+      } else if (res.status === 401) {
+        localStorage.removeItem('admin_token');
+        goto('/admin/login');
       }
     } catch (e) {
       console.error('Failed to fetch stats:', e);
