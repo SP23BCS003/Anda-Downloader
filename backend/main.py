@@ -18,6 +18,7 @@ from database import init_db, get_db
 from init_db import create_default_data
 from models import Settings, Admin
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from fastapi import Depends
 
 app = FastAPI()
@@ -210,12 +211,25 @@ def debug_info():
     }
 
 @app.post("/debug/init")
-def force_init():
-    """Manually trigger database initialization"""
+def force_init(db: Session = Depends(get_db)):
+    """Manually trigger database initialization and verify"""
     try:
-        init_db()
+        # Re-run init logic
         create_default_data()
-        return {"status": "success", "message": "Database initialized and default data created"}
+        
+        # Verify immediately
+        admin_count = db.query(Admin).count()
+        admins = db.query(Admin).all()
+        admin_list = [{"u": a.username, "p": a.password_hash[:10]+"..."} for a in admins]
+        
+        return {
+            "status": "success", 
+            "message": "Database initialized",
+            "verification": {
+                "admin_count": admin_count,
+                "admins": admin_list
+            }
+        }
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
@@ -223,7 +237,19 @@ def force_init():
 def list_users(db: Session = Depends(get_db)):
     """Temporary debug endpoint to list all users"""
     users = db.query(Admin).all()
-    return [{"id": u.id, "username": u.username, "is_active": u.is_active, "hash": u.password_hash} for u in users]
+    
+    # Check actual DB file being used by SQLite
+    try:
+        db_list = db.execute(text("PRAGMA database_list")).fetchall()
+        db_files = [str(row) for row in db_list]
+    except:
+        db_files = "Could not query pragma"
+
+    return {
+        "count": len(users),
+        "users": [{"id": u.id, "username": u.username, "is_active": u.is_active} for u in users],
+        "db_connection_info": db_files
+    }
 
 @app.get("/api/public-settings")
 def get_public_settings(db: Session = Depends(get_db)):
