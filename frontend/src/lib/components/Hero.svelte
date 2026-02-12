@@ -116,40 +116,46 @@
         </div>
 
         <!-- Mobile Layout -->
-        <div class="sm:hidden space-y-2">
-          <div class="flex gap-2 items-center">
+        <div class="sm:hidden flex flex-col gap-2 p-1">
+          <!-- Row 1: Input -->
+          <div class="w-full">
             <input 
               bind:value={url}
               placeholder={t(trans, 'hero.placeholderMobile')}
-              class="flex-1 px-4 py-3 rounded-full bg-transparent text-gray-700 placeholder-gray-400 focus:outline-none text-base"
+              class="w-full px-4 py-2.5 rounded-full bg-gray-50 border border-gray-200 text-gray-700 placeholder-gray-400 focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 text-sm"
               on:keydown={(e) => e.key === 'Enter' && fetchInfo()}
             />
+          </div>
+
+          <!-- Row 2: Buttons -->
+          <div class="grid grid-cols-[auto_1fr] gap-2">
             <button
               on:click={pasteFromClipboard}
-              class="px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full transition-all flex flex-col items-center justify-center min-w-[70px]"
+              class="px-3 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-xl transition-all flex items-center justify-center gap-1.5"
               title={t(trans, 'hero.paste')}
             >
-              <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
-              <span class="text-[9px] uppercase font-bold tracking-wider leading-none">Paste</span>
+              <span class="text-xs font-bold uppercase tracking-wide">Paste</span>
+            </button>
+
+            <button 
+              on:click={fetchInfo}
+              disabled={isLoading}
+              class="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm shadow-red-200"
+            >
+              {#if isLoading}
+                <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                {t(trans, 'hero.loading')}
+              {:else}
+                {t(trans, 'hero.downloadButtonMobile')}
+              {/if}
             </button>
           </div>
-          <button 
-            on:click={fetchInfo}
-            disabled={isLoading}
-            class="w-auto px-8 mx-auto py-3 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold text-base transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {#if isLoading}
-              <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              {t(trans, 'hero.loading')}
-            {:else}
-              {t(trans, 'hero.downloadButtonMobile')}
-            {/if}
-          </button>
         </div>
       </div>
       

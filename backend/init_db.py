@@ -21,14 +21,14 @@ def create_default_data():
                 is_active=True
             )
             db.add(admin)
-            print("✓ Default admin created: username='admin', password='admin123'")
-            print("⚠️  IMPORTANT: Change the default password after first login!")
+            print("[OK] Default admin created: username='admin', password='admin123'")
+            print("[WARN]  IMPORTANT: Change the default password after first login!")
         else:
             # Force reset password if admin exists (for recovery)
             print("Admin user found. verifying/resetting default password...")
             admin.password_hash = hash_password("admin123")
             db.add(admin) # Ensure it's tracked
-            print("✓ Admin password reset to 'admin123'")
+            print("[OK] Admin password reset to 'admin123'")
         
         # Create default settings
         default_settings = [
@@ -46,7 +46,7 @@ def create_default_data():
                 setting = Settings(key=key, value=value, type=type_, description=desc)
                 db.add(setting)
         
-        print("✓ Default settings created")
+        print("[OK] Default settings created")
         
         # Create default SEO configurations
         seo_pages = [
@@ -131,13 +131,13 @@ def create_default_data():
                 )
                 db.add(seo)
         
-        print("✓ Default SEO configurations created")
+        print("[OK] Default SEO configurations created")
         
         db.commit()
-        print("\n✅ Database initialized successfully!")
+        print("\n[OK] Database initialized successfully!")
         
     except Exception as e:
-        print(f"❌ Error initializing database: {e}")
+        print(f"[ERROR] Error initializing database: {e}")
         db.rollback()
     finally:
         db.close()

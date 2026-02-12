@@ -16,7 +16,7 @@ from typing import Dict, Any
 from admin_routes import router as admin_router
 from database import init_db, get_db
 from init_db import create_default_data
-from models import Settings
+from models import Settings, Admin
 from sqlalchemy.orm import Session
 from fastapi import Depends
 
@@ -29,7 +29,7 @@ async def startup_event():
     init_db()
     # Create default admin user and settings
     create_default_data()
-    print("✓ Database initialized")
+    print("[OK] Database initialized")
     
     # Cleanup old files
     files = glob.glob("downloads/*")
@@ -192,6 +192,12 @@ def process_download(job_id: str, url: str, format_id: str, start_time: str = No
 @app.get("/")
 def read_root():
     return {"status": "ok", "service": "Video Downloader Backend"}
+
+@app.get("/debug/users")
+def list_users(db: Session = Depends(get_db)):
+    """Temporary debug endpoint to list all users"""
+    users = db.query(Admin).all()
+    return [{"id": u.id, "username": u.username, "is_active": u.is_active} for u in users]
 
 @app.get("/api/public-settings")
 def get_public_settings(db: Session = Depends(get_db)):
