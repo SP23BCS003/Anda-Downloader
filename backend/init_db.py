@@ -93,10 +93,7 @@ def create_default_data():
              "Download Twitch clips and VODs. Save your favorite Twitch moments.",
              "twitch downloader, download twitch clips, twitch vod download, save twitch video",
              ""),
-            ("twitch-downloader", "Twitch Video Downloader - Download Twitch Clips & VODs",
-             "Download Twitch clips and VODs. Save your favorite Twitch moments.",
-             "twitch downloader, download twitch clips, twitch vod download, save twitch video",
-             ""),
+
             
             # Audio downloader
             ("soundcloud-downloader", "SoundCloud Downloader - Download SoundCloud Music Free",
