@@ -231,7 +231,12 @@ def force_init(db: Session = Depends(get_db)):
             }
         }
     except Exception as e:
-        return {"status": "error", "message": str(e)}
+        import traceback
+        return {
+            "status": "error", 
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        }
 
 @app.get("/debug/users")
 def list_users(db: Session = Depends(get_db)):

@@ -139,6 +139,7 @@ def create_default_data():
     except Exception as e:
         print(f"[ERROR] Error initializing database: {e}")
         db.rollback()
+        raise e  # Re-raise to let caller know
     finally:
         db.close()
 
