@@ -18,6 +18,8 @@
   });
 
   async function handleLogin() {
+    username = username.trim();
+    
     if (!username || !password) {
       error = 'Please enter both username and password';
       return;
