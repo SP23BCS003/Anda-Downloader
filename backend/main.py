@@ -140,15 +140,25 @@ def process_download(job_id: str, url: str, format_id: str, start_time: str = No
             'nocheckcertificate': True,
         }
 
-        # Try local ffmpeg directory first, then system ffmpeg
+        # Check if ffmpeg is available
+        has_ffmpeg = False
         ffmpeg_local = os.path.join(os.getcwd(), "ffmpeg")
         if os.path.exists(ffmpeg_local):
             ydl_opts['ffmpeg_location'] = ffmpeg_local
+            has_ffmpeg = True
         else:
-            # Detect system-installed ffmpeg (e.g. from nixpacks/apt)
             ffmpeg_sys = shutil.which("ffmpeg")
             if ffmpeg_sys:
                 ydl_opts['ffmpeg_location'] = os.path.dirname(ffmpeg_sys)
+                has_ffmpeg = True
+        
+        # If no ffmpeg, strip merge format requests to avoid yt-dlp abort
+        if not has_ffmpeg and '+' in format_id:
+            parts = format_id.split('/')
+            fallback = next((p for p in parts if '+' not in p), 'best')
+            print(f"[WARN] No ffmpeg - changing format from '{format_id}' to '{fallback}'")
+            format_id = fallback
+            ydl_opts['format'] = format_id
         
         # Advanced: Cutting
         if start_time and end_time:
@@ -259,12 +269,21 @@ async def get_info(request: UrlRequest):
             # Helper to find best video+audio combo
             # We will return specific resolutions (filtered) AND a generic "Best" option
             
+            # Check if ffmpeg is available for merge-capable format IDs
+            has_ffmpeg = bool(shutil.which("ffmpeg") or os.path.exists(os.path.join(os.getcwd(), "ffmpeg")))
+            print(f"[INFO] ffmpeg available: {has_ffmpeg}")
+
             # 1. Add "Best Available" option
+            if has_ffmpeg:
+                best_format_id = 'bestvideo+bestaudio/best'
+            else:
+                best_format_id = 'best'
+            
             formats_out.append({
                 'label': f"Best Quality ({info.get('ext', 'mp4')})",
                 'quality': 'best',
                 'ext': info.get('ext', 'mp4'),
-                'format_id': 'bestvideo+bestaudio/best',
+                'format_id': best_format_id,
                 'filesize': None
             })
 
@@ -299,16 +318,17 @@ async def get_info(request: UrlRequest):
                 if not filesize:
                     filesize = f.get('filesize_approx')
 
+                # Determine format_id based on ffmpeg availability
+                if has_ffmpeg:
+                    fmt_id = f"bestvideo[height={h}]+bestaudio/best[height={h}]"
+                else:
+                    fmt_id = f.get('format_id', 'best')
+
                 formats_out.append({
                     'label': f"{h}p ({f['ext'].upper()})",
                     'quality': f"{h}p",
                     'ext': f['ext'],
-                    # Use exact format ID to avoid re-merging if possible, 
-                    # but fallback to bestvideo+bestaudio selector logic if strictly needed.
-                    # Simple approach: use the format_id directly if it's a single file (not video+audio separate)
-                    # BUT yt-dlp often needs merging. 
-                    # Safer: request bestvideo[height=X]+bestaudio/best[height=X]
-                    'format_id': f"bestvideo[height={h}]+bestaudio/best[height={h}]", 
+                    'format_id': fmt_id,
                     'filesize': filesize
                 })
 
