@@ -133,37 +133,6 @@ def process_download(job_id: str, url: str, format_id: str, start_time: str = No
         download_jobs[job_id]['status'] = 'downloading'
         filename_base = f"temp_{job_id}"
         
-        # Check if ffmpeg ACTUALLY works (not just exists)
-        has_ffmpeg = False
-        ffmpeg_local = os.path.join(os.getcwd(), "ffmpeg")
-        if os.path.exists(ffmpeg_local):
-            has_ffmpeg = True
-            ffmpeg_location = ffmpeg_local
-        else:
-            ffmpeg_sys = shutil.which("ffmpeg")
-            if ffmpeg_sys:
-                # Verify it actually runs
-                try:
-                    import subprocess
-                    result = subprocess.run([ffmpeg_sys, '-version'], capture_output=True, timeout=5)
-                    if result.returncode == 0:
-                        has_ffmpeg = True
-                        ffmpeg_location = os.path.dirname(ffmpeg_sys)
-                        print(f"[OK] ffmpeg works at: {ffmpeg_sys}")
-                    else:
-                        print(f"[WARN] ffmpeg found at {ffmpeg_sys} but returned error code {result.returncode}")
-                except Exception as ex:
-                    print(f"[WARN] ffmpeg found at {ffmpeg_sys} but failed to run: {ex}")
-        
-        # ALWAYS strip merge format if ffmpeg is not working
-        if not has_ffmpeg and '+' in format_id:
-            parts = format_id.split('/')
-            fallback = next((p for p in parts if '+' not in p), 'best')
-            print(f"[WARN] No ffmpeg - changing format from '{format_id}' to '{fallback}'")
-            format_id = fallback
-        
-        print(f"[INFO] Job {job_id}: has_ffmpeg={has_ffmpeg}, format_id='{format_id}'")
-
         ydl_opts = {
             'format': format_id,
             'outtmpl': f"{filename_base}.%(ext)s",
@@ -171,8 +140,13 @@ def process_download(job_id: str, url: str, format_id: str, start_time: str = No
             'nocheckcertificate': True,
         }
 
-        if has_ffmpeg:
-            ydl_opts['ffmpeg_location'] = ffmpeg_location
+        # Set ffmpeg location (installed via Dockerfile)
+        ffmpeg_path = shutil.which("ffmpeg")
+        if ffmpeg_path:
+            ydl_opts['ffmpeg_location'] = os.path.dirname(ffmpeg_path)
+            print(f"[OK] ffmpeg at: {ffmpeg_path}")
+        else:
+            print("[WARN] ffmpeg not found in PATH")
         
         # Advanced: Cutting
         if start_time and end_time:
@@ -283,33 +257,12 @@ async def get_info(request: UrlRequest):
             # Helper to find best video+audio combo
             # We will return specific resolutions (filtered) AND a generic "Best" option
             
-            # Check if ffmpeg ACTUALLY works
-            has_ffmpeg = False
-            ffmpeg_local = os.path.join(os.getcwd(), "ffmpeg")
-            if os.path.exists(ffmpeg_local):
-                has_ffmpeg = True
-            else:
-                ffmpeg_sys = shutil.which("ffmpeg")
-                if ffmpeg_sys:
-                    try:
-                        import subprocess
-                        result = subprocess.run([ffmpeg_sys, '-version'], capture_output=True, timeout=5)
-                        has_ffmpeg = (result.returncode == 0)
-                    except Exception:
-                        has_ffmpeg = False
-            print(f"[INFO] /info endpoint: ffmpeg available = {has_ffmpeg}")
-
-            # 1. Add "Best Available" option
-            if has_ffmpeg:
-                best_format_id = 'bestvideo+bestaudio/best'
-            else:
-                best_format_id = 'best'
-            
+            # ffmpeg is guaranteed by Dockerfile - always use merge format
             formats_out.append({
                 'label': f"Best Quality ({info.get('ext', 'mp4')})",
                 'quality': 'best',
                 'ext': info.get('ext', 'mp4'),
-                'format_id': best_format_id,
+                'format_id': 'bestvideo+bestaudio/best',
                 'filesize': None
             })
 
@@ -344,11 +297,8 @@ async def get_info(request: UrlRequest):
                 if not filesize:
                     filesize = f.get('filesize_approx')
 
-                # Determine format_id based on ffmpeg availability
-                if has_ffmpeg:
-                    fmt_id = f"bestvideo[height={h}]+bestaudio/best[height={h}]"
-                else:
-                    fmt_id = f.get('format_id', 'best')
+                # Use merge format for best quality (ffmpeg guaranteed by Dockerfile)
+                fmt_id = f"bestvideo[height={h}]+bestaudio/best[height={h}]"
 
                 formats_out.append({
                     'label': f"{h}p ({f['ext'].upper()})",
