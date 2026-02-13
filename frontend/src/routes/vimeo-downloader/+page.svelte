@@ -4,10 +4,15 @@
   import Downloader from '$lib/components/Downloader.svelte';
   import InfoSection from '$lib/components/InfoSection.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import SEOHead from '$lib/components/SEOHead.svelte';
+
+  export let data: any;
 
   let fetchedData: any = null;
-  let pageTitle = 'Vimeo <span class="text-blue-400">Video Downloader</span>';
-  let pageSubtitle = 'Download Vimeo videos in high definition (1080p, 4K) simply.';
+
+  $: seo = (data.seo && data.seo['vimeo-downloader']) || {};
+  $: pageTitle = seo.title || 'Vimeo <span class="text-red-600">Video Downloader</span>';
+  $: pageSubtitle = seo.description || 'Download Vimeo videos in 1080p, 4K, and 8K quality.';
 
   function handleData(event: CustomEvent) {
       fetchedData = event.detail;
@@ -18,10 +23,12 @@
   }
 </script>
 
+<SEOHead pageId="vimeo-downloader" seoData={data.seo} />
+
 <div class="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-200">
-  <Navbar />
+  <Navbar settings={data.settings} />
   <Hero title={pageTitle} subtitle={pageSubtitle} on:data={handleData} on:loading={handleLoading} />
   {#if fetchedData}<Downloader data={fetchedData} />{/if}
   <InfoSection title="How to Download Vimeo Videos?" platformName="Vimeo Downloader" />
-  <Footer />
+  <Footer settings={data.settings} />
 </div>

@@ -1,10 +1,15 @@
 <script lang="ts">
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import SEOHead from '$lib/components/SEOHead.svelte';
+
+  export let data: any;
 </script>
 
+<SEOHead pageId="terms" seoData={data.seo} />
+
 <div class="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-200">
-  <Navbar />
+  <Navbar settings={data.settings} />
   <div class="pt-32 pb-20 px-6 max-w-4xl mx-auto">
       <h1 class="text-4xl font-bold mb-8 text-slate-800">Terms of Service</h1>
       <div class="prose prose-slate max-w-none bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-gray-600 leading-relaxed">
@@ -26,5 +31,5 @@
           <p class="mb-4">The materials on Anda-Downloader's website are provided "as is". Anda-Downloader makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties.</p>
       </div>
   </div>
-  <Footer />
+  <Footer settings={data.settings} />
 </div>

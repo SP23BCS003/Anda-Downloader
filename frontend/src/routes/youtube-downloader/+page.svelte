@@ -4,10 +4,15 @@
   import Downloader from '$lib/components/Downloader.svelte';
   import InfoSection from '$lib/components/InfoSection.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import SEOHead from '$lib/components/SEOHead.svelte';
+
+  export let data: any;
 
   let fetchedData: any = null;
-  let pageTitle = 'Free <span class="text-red-600">YouTube Downloader</span>';
-  let pageSubtitle = 'Download YouTube videos in 1080p, 4K, and 8K quality instantly.';
+  
+  $: seo = (data.seo && data.seo['youtube-downloader']) || {};
+  $: pageTitle = seo.title || 'Free <span class="text-red-600">YouTube Downloader</span>';
+  $: pageSubtitle = seo.description || 'Download YouTube videos in 1080p, 4K, and 8K quality instantly.';
 
   function handleData(event: CustomEvent) {
       fetchedData = event.detail;
@@ -18,10 +23,12 @@
   }
 </script>
 
+<SEOHead pageId="youtube-downloader" seoData={data.seo} />
+
 <div class="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-200">
-  <Navbar />
+  <Navbar settings={data.settings} />
   <Hero title={pageTitle} subtitle={pageSubtitle} on:data={handleData} on:loading={handleLoading} />
   {#if fetchedData}<Downloader data={fetchedData} />{/if}
   <InfoSection title="How to Download YouTube Videos?" platformName="YouTube Downloader" />
-  <Footer />
+  <Footer settings={data.settings} />
 </div>

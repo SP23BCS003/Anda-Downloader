@@ -1,10 +1,16 @@
 <script lang="ts">
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import SEOHead from '$lib/components/SEOHead.svelte';
+
+  export let data: any;
+  $: settings = data.settings || {};
 </script>
 
+<SEOHead pageId="contact" seoData={data.seo} />
+
 <div class="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-200">
-  <Navbar />
+  <Navbar settings={data.settings} />
   <div class="pt-32 pb-20 px-6 max-w-4xl mx-auto">
       <h1 class="text-4xl font-bold mb-8 text-slate-800">Contact Us</h1>
       <div class="prose prose-slate max-w-none bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
@@ -16,7 +22,7 @@
           <div class="space-y-4">
               <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                   <span class="font-bold text-gray-700">Email:</span>
-                  <a href="mailto:support@anda-downloader.com" class="text-red-600 hover:underline">support@anda-downloader.com</a>
+                  <a href="mailto:{settings.contact_email || 'support@anda-downloader.com'}" class="text-red-600 hover:underline">{settings.contact_email || 'support@anda-downloader.com'}</a>
               </div>
               <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                   <span class="font-bold text-gray-700">Twitter:</span>
@@ -30,5 +36,5 @@
           </p>
       </div>
   </div>
-  <Footer />
+  <Footer settings={data.settings} />
 </div>

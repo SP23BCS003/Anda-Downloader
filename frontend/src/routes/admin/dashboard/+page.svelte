@@ -42,6 +42,33 @@
       isLoading = false;
     }
   }
+
+  let isClearingCache = false;
+
+  async function clearCache() {
+    if (!confirm('Are you sure you want to clear temporary cache files?')) return;
+    
+    isClearingCache = true;
+    try {
+      const token = localStorage.getItem('admin_token');
+      const res = await fetch(`${API_BASE_URL}/admin/cache/clear`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message);
+      } else {
+        alert('Failed: ' + (data.detail || 'Unknown error'));
+      }
+    } catch (e) {
+      console.error('Clear cache error:', e);
+      alert('Network error while clearing cache');
+    } finally {
+      isClearingCache = false;
+    }
+  }
 </script>
 
 <div class="p-8">
@@ -149,6 +176,20 @@
             <p class="text-sm text-slate-600">Optimize for search engines</p>
           </div>
         </a>
+
+        <button
+          on:click={clearCache}
+          disabled={isClearingCache}
+          class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition group text-left w-full"
+        >
+          <span class="text-2xl">🧹</span>
+          <div>
+            <p class="font-semibold text-slate-800 group-hover:text-red-600">
+              {isClearingCache ? 'Clearing...' : 'Clear Cache'}
+            </p>
+            <p class="text-sm text-slate-600">Remove temporary files</p>
+          </div>
+        </button>
       </div>
     </div>
   {/if}

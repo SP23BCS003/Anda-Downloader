@@ -1,5 +1,7 @@
 <script lang="ts">
   import { currentLanguage, translations, languages, setLanguage, t } from '$lib/i18n';
+  
+  export let settings: any = {};
 
   let isMobileMenuOpen = false;
   let isLangDropdownOpen = false;
@@ -38,7 +40,13 @@
       <div class="flex items-center gap-2">
          <a href="/" class="flex items-center gap-2 group">
             <div class="w-7 h-7 md:w-8 md:h-8 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-lg md:text-xl group-hover:scale-110 transition-transform">A</div>
-            <span class="text-lg md:text-xl font-bold tracking-tight text-gray-800 group-hover:text-red-600 transition-colors">Anda-<span class="text-red-600 group-hover:text-gray-800 transition-colors">Downloader</span></span>
+            <span class="text-lg md:text-xl font-bold tracking-tight text-gray-800 group-hover:text-red-600 transition-colors">
+              {#if settings.site_name}
+                {settings.site_name}
+              {:else}
+                Anda-<span class="text-red-600 group-hover:text-gray-800 transition-colors">Downloader</span>
+              {/if}
+            </span>
         </a>
       </div>
 

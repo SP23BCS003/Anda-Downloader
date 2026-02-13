@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.background import BackgroundTask
 import yt_dlp
 import os
+import shutil
 import uuid
 import glob
 import asyncio
@@ -40,8 +41,15 @@ async def startup_event():
     # Add local ffmpeg to PATH
     ffmpeg_dir = os.path.join(os.getcwd(), "ffmpeg")
     if os.path.exists(ffmpeg_dir):
-        print(f"Adding {ffmpeg_dir} to PATH")
+        print(f"Adding local {ffmpeg_dir} to PATH")
         os.environ["PATH"] += os.pathsep + ffmpeg_dir
+    
+    # Check if ffmpeg is available (system or local)
+    ffmpeg_path = shutil.which("ffmpeg")
+    if ffmpeg_path:
+        print(f"[OK] ffmpeg found at: {ffmpeg_path}")
+    else:
+        print("[WARN] ffmpeg NOT found in PATH — video merging will fail!")
 
     # Start auto cache cleaner background task
     from tasks import cleanup_cache
@@ -132,9 +140,15 @@ def process_download(job_id: str, url: str, format_id: str, start_time: str = No
             'nocheckcertificate': True,
         }
 
+        # Try local ffmpeg directory first, then system ffmpeg
         ffmpeg_local = os.path.join(os.getcwd(), "ffmpeg")
         if os.path.exists(ffmpeg_local):
             ydl_opts['ffmpeg_location'] = ffmpeg_local
+        else:
+            # Detect system-installed ffmpeg (e.g. from nixpacks/apt)
+            ffmpeg_sys = shutil.which("ffmpeg")
+            if ffmpeg_sys:
+                ydl_opts['ffmpeg_location'] = os.path.dirname(ffmpeg_sys)
         
         # Advanced: Cutting
         if start_time and end_time:
@@ -193,6 +207,13 @@ def process_download(job_id: str, url: str, format_id: str, start_time: str = No
 def read_root():
     return {"status": "ok", "service": "Video Downloader Backend"}
 
+@app.get("/robots.txt")
+def serve_robots_txt(db: Session = Depends(get_db)):
+    """Serve robots.txt from database settings"""
+    setting = db.query(Settings).filter(Settings.key == "robots_txt").first()
+    content = setting.value if setting and setting.value else "User-agent: *\nAllow: /"
+    return Response(content=content, media_type="text/plain")
+
 
 
 @app.get("/api/public-settings")
@@ -202,6 +223,19 @@ def get_public_settings(db: Session = Depends(get_db)):
     settings = db.query(Settings).filter(Settings.key.in_(keys)).all()
     result = {s.key: s.value for s in settings}
     return result
+
+@app.get("/api/public-seo")
+def get_public_seo(db: Session = Depends(get_db)):
+    """Get all public SEO configurations"""
+    from models import SEOConfig
+    configs = db.query(SEOConfig).all()
+    return {c.page: {
+        "title": c.title,
+        "description": c.description,
+        "keywords": c.keywords,
+        "og_image": c.og_image,
+        "structured_data": c.structured_data
+    } for c in configs}
 
 @app.post("/info")
 async def get_info(request: UrlRequest):
