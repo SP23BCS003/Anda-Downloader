@@ -25,6 +25,9 @@
   // Let's add 'url' as a prop to be safe.
   export let url = ''; 
 
+  $: videoFormats = data?.formats?.filter((f: any) => f.quality !== 'audio') || [];
+  $: audioFormats = data?.formats?.filter((f: any) => f.quality === 'audio') || [];
+
   async function download(format_id: string, start?: string, end?: string) {
     if (downloading) return;
     downloading = true;
@@ -147,7 +150,7 @@
                   {#if activeTab === 'video'}
                     <!-- Mobile Card Layout -->
                     <div class="md:hidden divide-y divide-gray-100">
-                        {#each data.formats.filter((f: any) => f.quality !== 'audio') as fmt}
+                        {#each videoFormats as fmt}
                         <div class="p-4 hover:bg-gray-50 transition-colors">
                             <div class="flex items-center justify-between mb-3">
                                 <div class="flex items-center gap-2">
@@ -187,7 +190,7 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
-                                {#each data.formats.filter((f: any) => f.quality !== 'audio') as fmt}
+                                {#each videoFormats as fmt}
                                 <tr class="hover:bg-gray-50 transition-colors group">
                                     <td class="p-4 pl-6">
                                         <div class="flex items-center gap-2">
@@ -222,7 +225,7 @@
                   {:else if activeTab === 'audio'}
                     <!-- Mobile Card Layout -->
                     <div class="md:hidden divide-y divide-gray-100">
-                        {#each data.formats.filter((f: any) => f.quality === 'audio') as fmt}
+                        {#each audioFormats as fmt}
                         <div class="p-4 hover:bg-gray-50 transition-colors">
                             <div class="flex items-center justify-between mb-3">
                                 <div class="flex items-center gap-2">
@@ -253,7 +256,7 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
-                                {#each data.formats.filter((f: any) => f.quality === 'audio') as fmt}
+                                {#each audioFormats as fmt}
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="p-4 pl-6">
                                         <span class="font-bold text-gray-800 uppercase">{fmt.ext}</span>
@@ -288,11 +291,11 @@
                                 <label class="block text-sm font-bold text-gray-700">2. Select quality:</label>
                                 <select bind:value={advQuality} class="w-full p-2.5 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                     {#if advFormat === 'mp4'}
-                                        {#each data.formats.filter((f: any) => f.quality !== 'audio') as fmt}
+                                        {#each videoFormats as fmt}
                                             <option value={fmt.format_id}>{fmt.quality} ({((fmt.filesize || 0)/1024/1024).toFixed(1)} MB)</option>
                                         {/each}
                                     {:else}
-                                         {#each data.formats.filter((f: any) => f.quality === 'audio') as fmt}
+                                         {#each audioFormats as fmt}
                                             <option value={fmt.format_id}>Audio (Best)</option>
                                         {/each}
                                     {/if}
