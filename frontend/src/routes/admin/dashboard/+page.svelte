@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { API_BASE_URL } from '$lib/api';
+  import { goto } from '$app/navigation';
+
+  let adminBasePath = '/admin';
 
   let stats = {
     total_blogs: 0,
@@ -11,16 +14,27 @@
   let isLoading = true;
 
   onMount(async () => {
+    // Fetch admin base path
+    try {
+      const settingsRes = await fetch(`${API_BASE_URL}/api/public-settings`);
+      if (settingsRes.ok) {
+        const s = await settingsRes.json();
+        if (s.admin_panel_url) {
+          let p = s.admin_panel_url;
+          if (!p.startsWith('/')) p = '/' + p;
+          adminBasePath = p.replace(/\/+$/, '');
+        }
+      }
+    } catch (e) { /* use default */ }
     await fetchStats();
   });
 
-  import { goto } from '$app/navigation';
 
   async function fetchStats() {
     try {
       const token = localStorage.getItem('admin_token');
       if (!token) {
-        goto('/admin/login');
+        goto(`${adminBasePath}/login`);
         return;
       }
       
@@ -34,7 +48,7 @@
         stats = await res.json();
       } else if (res.status === 401) {
         localStorage.removeItem('admin_token');
-        goto('/admin/login');
+        goto(`${adminBasePath}/login`);
       }
     } catch (e) {
       console.error('Failed to fetch stats:', e);
@@ -145,7 +159,7 @@
       <h2 class="text-xl font-bold text-slate-800 mb-4">Quick Actions</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <a
-          href="/admin/blogs"
+          href="{adminBasePath}/blogs"
           class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition group"
         >
           <span class="text-2xl">📝</span>
@@ -156,7 +170,7 @@
         </a>
 
         <a
-          href="/admin/settings"
+          href="{adminBasePath}/settings"
           class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition group"
         >
           <span class="text-2xl">⚙️</span>
@@ -167,7 +181,7 @@
         </a>
 
         <a
-          href="/admin/seo"
+          href="{adminBasePath}/seo"
           class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition group"
         >
           <span class="text-2xl">🔍</span>

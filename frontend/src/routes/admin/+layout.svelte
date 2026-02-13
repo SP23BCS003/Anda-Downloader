@@ -3,16 +3,34 @@
   import { browser } from '$app/environment';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
+  import { API_BASE_URL } from '$lib/api';
 
   let currentPage = 'dashboard';
   let username = '';
   let isMobileMenuOpen = false;
   let isCheckingAuth = true;
   let isAuthenticated = false;
+  let adminBasePath = '/admin'; // default, updated from API
 
-  $: isLoginPage = $page.url.pathname === '/admin/login';
+  // Check if the current path is the login page
+  $: isLoginPage = $page.url.pathname.endsWith('/login');
 
-  onMount(() => {
+  onMount(async () => {
+    // Fetch the admin base path from settings
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/public-settings`);
+      if (res.ok) {
+        const settings = await res.json();
+        if (settings.admin_panel_url) {
+          let path = settings.admin_panel_url;
+          if (!path.startsWith('/')) path = '/' + path;
+          adminBasePath = path.replace(/\/+$/, '');
+        }
+      }
+    } catch (e) {
+      console.error('Failed to fetch admin path:', e);
+    }
+
     // Skip auth check on login page
     if (isLoginPage) {
       isCheckingAuth = false;
@@ -22,7 +40,7 @@
     // Check auth
     const token = browser ? localStorage.getItem('admin_token') : null;
     if (!token) {
-      goto('/admin/login');
+      goto(`${adminBasePath}/login`);
       return;
     }
     username = localStorage.getItem('admin_username') || 'Admin';
@@ -33,14 +51,14 @@
   function logout() {
     localStorage.removeItem('admin_token');
     localStorage.removeItem('admin_username');
-    goto('/admin/login');
+    goto(`${adminBasePath}/login`);
   }
 
-  const menuItems = [
-    { name: 'Dashboard', icon: '📊', href: '/admin/dashboard' },
-    { name: 'Blogs', icon: '📝', href: '/admin/blogs' },
-    { name: 'Settings', icon: '⚙️', href: '/admin/settings' },
-    { name: 'SEO', icon: '🔍', href: '/admin/seo' }
+  $: menuItems = [
+    { name: 'Dashboard', icon: '📊', href: `${adminBasePath}/dashboard` },
+    { name: 'Blogs', icon: '📝', href: `${adminBasePath}/blogs` },
+    { name: 'Settings', icon: '⚙️', href: `${adminBasePath}/settings` },
+    { name: 'SEO', icon: '🔍', href: `${adminBasePath}/seo` }
   ];
 </script>
 

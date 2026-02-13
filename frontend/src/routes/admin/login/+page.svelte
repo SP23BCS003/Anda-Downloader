@@ -8,12 +8,28 @@
   let password = '';
   let error = '';
   let isLoading = false;
+  let adminBasePath = '/admin';
 
-  onMount(() => {
+  onMount(async () => {
+    // Fetch admin base path
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/public-settings`);
+      if (res.ok) {
+        const settings = await res.json();
+        if (settings.admin_panel_url) {
+          let path = settings.admin_panel_url;
+          if (!path.startsWith('/')) path = '/' + path;
+          adminBasePath = path.replace(/\/+$/, '');
+        }
+      }
+    } catch (e) {
+      console.error('Failed to fetch admin path:', e);
+    }
+
     // Check if already logged in
     const token = browser ? localStorage.getItem('admin_token') : null;
     if (token) {
-      goto('/admin/dashboard');
+      goto(`${adminBasePath}/dashboard`);
     }
   });
 
@@ -44,7 +60,7 @@
       localStorage.setItem('admin_token', data.access_token);
       localStorage.setItem('admin_username', data.username);
       
-      goto('/admin/dashboard');
+      goto(`${adminBasePath}/dashboard`);
     } catch (e: any) {
       error = e.message || 'Failed to login';
     } finally {

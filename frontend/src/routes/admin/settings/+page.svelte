@@ -29,7 +29,7 @@
     { key: 'maintenance_mode', label: 'Maintenance Mode', type: 'bool', placeholder: 'false' },
     { key: 'analytics_id', label: 'Google Analytics ID', type: 'string', placeholder: 'G-XXXXXXXXXX' },
     { key: 'favicon_url', label: 'Favicon URL', type: 'string', placeholder: '/favicon.ico or https://...' },
-    { key: 'admin_panel_url', label: 'Admin Panel Path (Visual Only)', type: 'string', placeholder: '/admin' },
+    { key: 'admin_panel_url', label: 'Admin Panel Path', type: 'string', placeholder: '/admin' },
     { key: 'verification_tags', label: 'Verification Meta Tags', type: 'textarea', placeholder: '<meta name="google-site-verification" content="..." />' },
     { key: 'robots_txt', label: 'Robots.txt Content', type: 'textarea', placeholder: 'User-agent: *\nAllow: /' },
   ];
@@ -209,7 +209,7 @@
                 />
               {/if}
               {#if config.key === 'admin_panel_url'}
-                <p class="text-xs text-slate-500 mt-1">Note: This only stores the value. You must verify your server configuration if changing the actual route path.</p>
+                <p class="text-xs text-amber-600 mt-1">⚠️ Changing this will change the URL you use to access the admin panel. Make sure to bookmark the new URL. Takes effect within 60 seconds.</p>
               {/if}
             </div>
           {/each}
