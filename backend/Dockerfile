@@ -21,8 +21,9 @@ COPY . .
 # Create downloads directory
 RUN mkdir -p downloads
 
-# Expose port
-EXPOSE 8000
+# Default port (Railway overrides via $PORT env var)
+ENV PORT=8000
+EXPOSE ${PORT}
 
-# Start the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start the application (shell form to expand $PORT)
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT
