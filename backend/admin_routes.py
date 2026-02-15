@@ -414,7 +414,22 @@ def trigger_update_ytdlp(
             stderr=subprocess.STDOUT,
             text=True
         )
-        return {"message": "Update completed successfully", "log": result}
+        
+        # SCHEDULE RESTART: 
+        # In a container, the best way to reload code/libs is to crash and restart.
+        # We start a background thread to kill the server in 2 seconds, allowing time to return response.
+        import threading
+        import time
+        import os
+        
+        def restart_server():
+            time.sleep(2)
+            print("Restarting server to apply updates...")
+            os._exit(1) # Force exit
+            
+        threading.Thread(target=restart_server).start()
+        
+        return {"message": "Update successful! Server restarting in 2 seconds...", "log": result}
     except subprocess.CalledProcessError as e:
         raise HTTPException(status_code=500, detail=f"Update failed: {e.output}")
     except Exception as e:

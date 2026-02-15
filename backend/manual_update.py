@@ -4,6 +4,13 @@ import sys
 def update_ytdlp():
     print("Starting manual update of yt-dlp...")
     try:
+        # Check current version
+        try:
+            current_ver = subprocess.check_output(["yt-dlp", "--version"], text=True).strip()
+            print(f"Current version: {current_ver}")
+        except:
+            print("Current version: Unknown")
+
         # Uninstall existing
         print("Uninstalling current yt-dlp...")
         subprocess.check_call([sys.executable, "-m", "pip", "uninstall", "-y", "yt-dlp"])
