@@ -27,10 +27,10 @@ async function getAdminPath(): Promise<string> {
             cacheTimestamp = now;
             return path;
         } else {
-            console.error('[hooks] Failed to fetch settings, status:', res.status);
+            console.error(`[hooks] Failed to fetch settings. Status: ${res.status} URL: ${apiUrl}/api/public-settings`);
         }
     } catch (e) {
-        console.error('[hooks] Failed to fetch admin path:', e);
+        console.error('[hooks] Critical error fetching admin path:', e);
     }
 
     return cachedAdminPath || '/admin';
