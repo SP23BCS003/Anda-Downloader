@@ -219,7 +219,7 @@ def serve_robots_txt(db: Session = Depends(get_db)):
 @app.get("/api/public-settings")
 def get_public_settings(db: Session = Depends(get_db)):
     """Get public settings (favicon, robots.txt, etc.)"""
-    keys = ["favicon_url", "verification_tags", "robots_txt", "site_name", "site_tagline", "analytics_id"]
+    keys = ["favicon_url", "verification_tags", "robots_txt", "site_name", "site_tagline", "analytics_id", "admin_panel_url"]
     settings = db.query(Settings).filter(Settings.key.in_(keys)).all()
     result = {s.key: s.value for s in settings}
     return result
