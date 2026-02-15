@@ -10,26 +10,22 @@
   let isMobileMenuOpen = false;
   let isCheckingAuth = true;
   let isAuthenticated = false;
-  let adminBasePath = '/admin'; // default, updated from API
+  let isAuthenticated = false;
+  let adminBasePath = '/khan'; // Hardcoded
 
   // Check if the current path is the login page
   $: isLoginPage = $page.url.pathname.endsWith('/login');
 
   onMount(async () => {
-    // Fetch the admin base path from settings
+    // Admin path is now hardcoded to /khan, no need to fetch
+    /*
     try {
       const res = await fetch(`${API_BASE_URL}/api/public-settings`);
-      if (res.ok) {
-        const settings = await res.json();
-        if (settings.admin_panel_url) {
-          let path = settings.admin_panel_url;
-          if (!path.startsWith('/')) path = '/' + path;
-          adminBasePath = path.replace(/\/+$/, '');
-        }
-      }
+      ...
     } catch (e) {
       console.error('Failed to fetch admin path:', e);
     }
+    */
 
     // Skip auth check on login page
     if (isLoginPage) {

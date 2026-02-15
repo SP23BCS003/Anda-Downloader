@@ -1,44 +1,12 @@
 import type { Handle } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
-// Cache the admin path setting
-let cachedAdminPath: string | null = null;
-let cacheTimestamp = 0;
-const CACHE_TTL = 60_000; // 60 seconds
-
-async function getAdminPath(): Promise<string> {
-    const now = Date.now();
-    if (cachedAdminPath !== null && (now - cacheTimestamp) < CACHE_TTL) {
-        return cachedAdminPath;
-    }
-
-    try {
-        const apiUrl = env.PUBLIC_API_URL || 'http://localhost:8000';
-        const res = await fetch(`${apiUrl}/api/public-settings`);
-        if (res.ok) {
-            const settings = await res.json();
-            // Normalize: ensure starts with /, remove trailing slash
-            let path = settings.admin_panel_url || '/admin';
-            if (!path.startsWith('/')) path = '/' + path;
-            path = path.replace(/\/+$/, ''); // remove trailing slashes
-
-            console.log('[hooks] Fetched admin path:', path); // DEBUG
-            cachedAdminPath = path;
-            cacheTimestamp = now;
-            return path;
-        } else {
-            console.error(`[hooks] Failed to fetch settings. Status: ${res.status} URL: ${apiUrl}/api/public-settings`);
-        }
-    } catch (e) {
-        console.error('[hooks] Critical error fetching admin path:', e);
-    }
-
-    return cachedAdminPath || '/admin';
-}
+// Hardcoded admin path
+const adminPath = '/khan';
 
 export const handle: Handle = async ({ event, resolve }) => {
     const pathname = event.url.pathname;
-    const adminPath = await getAdminPath();
+    // const adminPath = await getAdminPath(); // REMOVED DYNAMIC FETCH
 
     // Normalize adminPath for comparison
     const isDefaultAdmin = adminPath === '/admin';
