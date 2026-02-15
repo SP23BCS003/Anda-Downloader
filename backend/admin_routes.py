@@ -391,3 +391,31 @@ def get_stats(
         "draft_blogs": draft_blogs,
         "total_admins": db.query(Admin).count()
     }
+
+@router.post("/system/update-ytdlp")
+def trigger_update_ytdlp(
+    admin: Admin = Depends(get_current_admin)
+):
+    """Manually trigger yt-dlp update"""
+    try:
+        from manual_update import update_ytdlp
+        # Run in a separate process or thread would be better for long tasks, 
+        # but for simplicity and immediate feedback we run it here.
+        # However, since it installs packages, it might kill the worker if it restarts python.
+        # Actually, in a container, pip install might not immediately affect the running process 
+        # unless we reload. But for yt-dlp (CLI tool), it should work for next subprocess call.
+        
+        import subprocess
+        import sys
+        
+        # We run the script as a subprocess to capture output cleanly
+        result = subprocess.check_output(
+            [sys.executable, "manual_update.py"], 
+            stderr=subprocess.STDOUT,
+            text=True
+        )
+        return {"message": "Update completed successfully", "log": result}
+    except subprocess.CalledProcessError as e:
+        raise HTTPException(status_code=500, detail=f"Update failed: {e.output}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

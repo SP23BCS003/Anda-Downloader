@@ -272,15 +272,29 @@
       <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <h2 class="text-xl font-semibold text-slate-800 mb-6">System Operations</h2>
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <button
-              on:click={clearCache}
-              disabled={isClearingCache}
-              class="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition disabled:opacity-70 flex items-center gap-2"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
               {isClearingCache ? 'Clearing...' : 'Clear All Caches'}
+            </button>
+
+            <button
+              on:click={async () => {
+                if(!confirm('Force update yt-dlp? This might take a minute.')) return;
+                try {
+                  const token = localStorage.getItem('admin_token');
+                  const res = await fetch(`${API_BASE_URL}/admin/system/update-ytdlp`, {
+                      method: 'POST',
+                      headers: { 'Authorization': `Bearer ${token}` }
+                  });
+                  const data = await res.json();
+                  if(res.ok) alert('Update Success:\n' + data.log);
+                  else alert('Update Failed: ' + data.detail);
+                } catch(e) {
+                  alert('Error: ' + e.message);
+                }
+              }}
+              class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition flex items-center gap-2"
+            >
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              Force Update Core
             </button>
             
             {#if cacheMessage}
