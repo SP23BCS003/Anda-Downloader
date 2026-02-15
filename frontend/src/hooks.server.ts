@@ -61,9 +61,14 @@ export const handle: Handle = async ({ event, resolve }) => {
         const newUrl = new URL(event.url);
         newUrl.pathname = internalPath;
 
+        console.log(`[hooks] Rewriting ${pathname} -> ${internalPath}`);
+
         // Update route to match internal path on the ORIGINAL event object
-        // Cloning via {...event} can break internal methods/bindings
         Object.defineProperty(event, 'url', { value: newUrl });
+
+        // Also update the request object, as SvelteKit/Vite might use it for routing/matching
+        const newRequest = new Request(newUrl.toString(), event.request);
+        Object.defineProperty(event, 'request', { value: newRequest });
 
         return resolve(event);
     }
