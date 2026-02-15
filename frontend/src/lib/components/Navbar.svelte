@@ -52,6 +52,7 @@
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center gap-6">
+          <a href="/blogs" class="text-sm font-medium text-gray-500 hover:text-red-600 transition-colors">Blogs</a>
           <a href="#how-to-download" class="text-sm font-medium text-gray-500 hover:text-red-600 transition-colors">{t(trans, 'nav.howToDownload')}</a>
           <a href="#supported-sites" class="text-sm font-medium text-gray-500 hover:text-red-600 transition-colors">{t(trans, 'nav.supportedSites')}</a>
           <a href="#faq" class="text-sm font-medium text-gray-500 hover:text-red-600 transition-colors">{t(trans, 'nav.faq')}</a>
@@ -107,6 +108,7 @@
   <!-- Mobile Menu -->
   {#if isMobileMenuOpen}
       <div class="md:hidden mt-4 pb-4 space-y-2 border-t border-gray-100 pt-4">
+          <a href="/blogs" on:click={closeMobileMenu} class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all">Blogs</a>
           <a href="#how-to-download" on:click={closeMobileMenu} class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all">{t(trans, 'nav.howToDownload')}</a>
           <a href="#supported-sites" on:click={closeMobileMenu} class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all">{t(trans, 'nav.supportedSites')}</a>
           <a href="#faq" on:click={closeMobileMenu} class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all">{t(trans, 'nav.faq')}</a>

@@ -13,7 +13,8 @@ WORKDIR /app
 
 # Install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt && \
+    pip install --no-cache-dir --upgrade "yt-dlp>=2024.11.04"
 
 # Copy application code
 COPY . .

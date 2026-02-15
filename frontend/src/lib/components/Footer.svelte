@@ -28,6 +28,7 @@
             <h4 class="text-white font-bold mb-4 sm:mb-6 text-base sm:text-lg">Quick Links</h4>
             <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm font-medium">
                 <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+                <li><a href="/blogs" class="hover:text-white transition-colors">Blogs</a></li>
                 <li><a href="/contact" class="hover:text-white transition-colors">Contact</a></li>
                 <li><a href="/terms" class="hover:text-white transition-colors">Terms of Service</a></li>
                 <li><a href="/privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>

@@ -21,9 +21,13 @@ async function getAdminPath(): Promise<string> {
             let path = settings.admin_panel_url || '/admin';
             if (!path.startsWith('/')) path = '/' + path;
             path = path.replace(/\/+$/, ''); // remove trailing slashes
+
+            console.log('[hooks] Fetched admin path:', path); // DEBUG
             cachedAdminPath = path;
             cacheTimestamp = now;
             return path;
+        } else {
+            console.error('[hooks] Failed to fetch settings, status:', res.status);
         }
     } catch (e) {
         console.error('[hooks] Failed to fetch admin path:', e);

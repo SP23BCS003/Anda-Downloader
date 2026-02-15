@@ -83,21 +83,21 @@
           />
           <button
             on:click={pasteFromClipboard}
-            class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-2xl transition-all flex flex-col items-center justify-center group"
+            class="px-4 py-3 bg-red-100 hover:bg-red-200 text-red-700 rounded-2xl transition-all flex flex-col items-center justify-center gap-0.5 group min-w-[80px]"
             title={t(trans, 'hero.pasteButton')}
           >
             <div class="relative">
-              <svg class="w-6 h-6 mb-0.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
               {#if showPasteSuccess}
-                <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                <span class="absolute -top-1 -right-1 flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </span>
               {/if}
             </div>
-            <span class="text-[10px] uppercase font-bold tracking-wider">Paste</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider">Paste</span>
           </button>
           <button 
             on:click={fetchInfo}

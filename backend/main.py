@@ -15,6 +15,7 @@ from typing import Dict, Any
 
 # Import admin routes
 from admin_routes import router as admin_router
+from public_routes import router as public_router
 from database import init_db, get_db
 from init_db import create_default_data
 from models import Settings
@@ -69,6 +70,7 @@ async def startup_event():
 
 # Mount admin routes
 app.include_router(admin_router)
+app.include_router(public_router)
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
