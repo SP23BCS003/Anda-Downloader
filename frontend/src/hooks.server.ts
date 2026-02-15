@@ -1,35 +1,21 @@
 import type { Handle } from '@sveltejs/kit';
-import { env } from '$env/dynamic/public';
 
 // Hardcoded admin path
 const adminPath = '/khan';
 
 export const handle: Handle = async ({ event, resolve }) => {
     const pathname = event.url.pathname;
-    // const adminPath = await getAdminPath(); // REMOVED DYNAMIC FETCH
 
-    // Normalize adminPath for comparison
-    const isDefaultAdmin = adminPath === '/admin';
-
-    // DEBUG LOG
-    if (pathname.startsWith('/admin') || pathname.startsWith(adminPath)) {
-        console.log(`[hooks] Request: ${pathname}, AdminPath: ${adminPath}, IsDefault: ${isDefaultAdmin}`);
-    }
-
-    // Case 1: User visits the CUSTOM admin path (e.g. /admin/anda/dashboard)
+    // Case 1: User visits the CUSTOM admin path (e.g. /khan/dashboard)
     // Rewrite to internal /admin/* route
-    if (!isDefaultAdmin && pathname.startsWith(adminPath)) {
+    if (pathname.startsWith(adminPath)) {
         // Get the sub-path after the custom prefix
         const subPath = pathname.slice(adminPath.length) || '';
         const internalPath = '/admin' + subPath;
 
-        console.log(`[hooks] Rewriting ${pathname} -> ${internalPath}`);
-
         // Rewrite the URL to the internal admin route
         const newUrl = new URL(event.url);
         newUrl.pathname = internalPath;
-
-        console.log(`[hooks] Rewriting ${pathname} -> ${internalPath}`);
 
         // Update route to match internal path on the ORIGINAL event object
         Object.defineProperty(event, 'url', { value: newUrl });
@@ -43,7 +29,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     // Case 2: User visits /admin/* directly but custom path is set
     // Block access (return 404)
-    if (!isDefaultAdmin && pathname.startsWith('/admin')) {
+    if (pathname.startsWith('/admin')) {
         return new Response('Not Found', { status: 404 });
     }
 

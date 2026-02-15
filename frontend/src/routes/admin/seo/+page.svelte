@@ -182,8 +182,9 @@ onMount(async () => {
         
         <div class="space-y-6">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-2">Meta Title</label>
+            <label for="meta-title" class="block text-sm font-medium text-slate-700 mb-2">Meta Title</label>
             <input
+              id="meta-title"
               type="text"
               bind:value={title}
               placeholder="Page title for search engines"
@@ -193,8 +194,9 @@ onMount(async () => {
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-2">Meta Description</label>
+            <label for="meta-desc" class="block text-sm font-medium text-slate-700 mb-2">Meta Description</label>
             <textarea
+              id="meta-desc"
               bind:value={description}
               rows="3"
               placeholder="Page description for search engines"
@@ -204,8 +206,9 @@ onMount(async () => {
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-2">Keywords</label>
+            <label for="meta-keywords" class="block text-sm font-medium text-slate-700 mb-2">Keywords</label>
             <input
+              id="meta-keywords"
               type="text"
               bind:value={keywords}
               placeholder="keyword1, keyword2, keyword3"
@@ -215,8 +218,9 @@ onMount(async () => {
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-2">Open Graph Image URL</label>
+            <label for="og-image" class="block text-sm font-medium text-slate-700 mb-2">Open Graph Image URL</label>
             <input
+              id="og-image"
               type="text"
               bind:value={ogImage}
               placeholder="https://example.com/image.jpg"

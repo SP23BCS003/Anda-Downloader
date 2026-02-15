@@ -264,8 +264,10 @@
 
 <!-- Create/Edit Modal -->
 {#if showCreateModal}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" on:click={closeModal}>
-    <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto" on:click|stopPropagation>
+    <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto" on:click|stopPropagation role="dialog" aria-modal="true">
       <div class="sticky top-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-slate-800">
           {editingBlog ? 'Edit Blog' : 'Create New Blog'}
@@ -280,8 +282,9 @@
       <div class="p-6 space-y-6">
         <!-- Title -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-2">Title *</label>
+          <label for="blog-title" class="block text-sm font-medium text-slate-700 mb-2">Title *</label>
           <input
+            id="blog-title"
             type="text"
             bind:value={title}
             class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none"
@@ -291,8 +294,9 @@
 
         <!-- Content -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-2">Content *</label>
+          <label for="blog-content" class="block text-sm font-medium text-slate-700 mb-2">Content *</label>
           <textarea
+            id="blog-content"
             bind:value={content}
             rows="10"
             class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none resize-none"
@@ -302,8 +306,9 @@
 
         <!-- Excerpt -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-2">Excerpt</label>
+          <label for="blog-excerpt" class="block text-sm font-medium text-slate-700 mb-2">Excerpt</label>
           <textarea
+            id="blog-excerpt"
             bind:value={excerpt}
             rows="3"
             class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none resize-none"
@@ -313,8 +318,9 @@
 
         <!-- Status -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-2">Status</label>
+          <label for="blog-status" class="block text-sm font-medium text-slate-700 mb-2">Status</label>
           <select
+            id="blog-status"
             bind:value={status}
             class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none"
           >
@@ -329,8 +335,9 @@
           
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-2">Meta Title</label>
+              <label for="blog-meta-title" class="block text-sm font-medium text-slate-700 mb-2">Meta Title</label>
               <input
+                id="blog-meta-title"
                 type="text"
                 bind:value={metaTitle}
                 class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none"
@@ -339,8 +346,9 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-2">Meta Description</label>
+              <label for="blog-meta-desc" class="block text-sm font-medium text-slate-700 mb-2">Meta Description</label>
               <textarea
+                id="blog-meta-desc"
                 bind:value={metaDescription}
                 rows="2"
                 class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none resize-none"

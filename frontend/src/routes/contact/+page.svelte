@@ -26,7 +26,7 @@
               </div>
               <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                   <span class="font-bold text-gray-700">Twitter:</span>
-                  <a href="#" class="text-red-600 hover:underline">@AndaDownloader</a>
+                  <a href="https://twitter.com/AndaDownloader" target="_blank" rel="noopener noreferrer" class="text-red-600 hover:underline">@AndaDownloader</a>
               </div>
           </div>
 

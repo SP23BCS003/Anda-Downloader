@@ -10,7 +10,7 @@
   let isMobileMenuOpen = false;
   let isCheckingAuth = true;
   let isAuthenticated = false;
-  let isAuthenticated = false;
+  // Admin base path configuration
   let adminBasePath = '/khan'; // Hardcoded
 
   // Check if the current path is the login page

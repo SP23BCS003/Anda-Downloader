@@ -29,10 +29,7 @@
     { key: 'maintenance_mode', label: 'Maintenance Mode', type: 'bool', placeholder: 'false' },
     { key: 'analytics_id', label: 'Google Analytics ID', type: 'string', placeholder: 'G-XXXXXXXXXX' },
     { key: 'favicon_url', label: 'Favicon URL', type: 'string', placeholder: '/favicon.ico or https://...' },
-    { key: 'analytics_id', label: 'Google Analytics ID', type: 'string', placeholder: 'G-XXXXXXXXXX' },
-    { key: 'favicon_url', label: 'Favicon URL', type: 'string', placeholder: '/favicon.ico or https://...' },
     // { key: 'admin_panel_url', label: 'Admin Panel Path', type: 'string', placeholder: '/admin' }, // REMOVED
-    { key: 'verification_tags', label: 'Verification Meta Tags', type: 'textarea', placeholder: '<meta name="google-site-verification" content="..." />' },
     { key: 'verification_tags', label: 'Verification Meta Tags', type: 'textarea', placeholder: '<meta name="google-site-verification" content="..." />' },
     { key: 'robots_txt', label: 'Robots.txt Content', type: 'textarea', placeholder: 'User-agent: *\nAllow: /' },
   ];
