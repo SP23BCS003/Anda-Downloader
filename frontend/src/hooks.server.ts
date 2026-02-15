@@ -43,6 +43,11 @@ export const handle: Handle = async ({ event, resolve }) => {
     // Normalize adminPath for comparison
     const isDefaultAdmin = adminPath === '/admin';
 
+    // DEBUG LOG
+    if (pathname.startsWith('/admin') || pathname.startsWith(adminPath)) {
+        console.log(`[hooks] Request: ${pathname}, AdminPath: ${adminPath}, IsDefault: ${isDefaultAdmin}`);
+    }
+
     // Case 1: User visits the CUSTOM admin path (e.g. /admin/anda/dashboard)
     // Rewrite to internal /admin/* route
     if (!isDefaultAdmin && pathname.startsWith(adminPath)) {
@@ -50,16 +55,17 @@ export const handle: Handle = async ({ event, resolve }) => {
         const subPath = pathname.slice(adminPath.length) || '';
         const internalPath = '/admin' + subPath;
 
+        console.log(`[hooks] Rewriting ${pathname} -> ${internalPath}`);
+
         // Rewrite the URL to the internal admin route
         const newUrl = new URL(event.url);
         newUrl.pathname = internalPath;
 
-        // Create a new request with the rewritten URL
-        const newEvent = { ...event, url: newUrl };
-        // Update route to match internal path
-        Object.defineProperty(newEvent, 'url', { value: newUrl });
+        // Update route to match internal path on the ORIGINAL event object
+        // Cloning via {...event} can break internal methods/bindings
+        Object.defineProperty(event, 'url', { value: newUrl });
 
-        return resolve(newEvent);
+        return resolve(event);
     }
 
     // Case 2: User visits /admin/* directly but custom path is set
