@@ -8,24 +8,9 @@
   let password = '';
   let error = '';
   let isLoading = false;
-  let adminBasePath = '/admin';
+  let adminBasePath = '/khan';
 
   onMount(async () => {
-    // Fetch admin base path
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/public-settings`);
-      if (res.ok) {
-        const settings = await res.json();
-        if (settings.admin_panel_url) {
-          let path = settings.admin_panel_url;
-          if (!path.startsWith('/')) path = '/' + path;
-          adminBasePath = path.replace(/\/+$/, '');
-        }
-      }
-    } catch (e) {
-      console.error('Failed to fetch admin path:', e);
-    }
-
     // Check if already logged in
     const token = browser ? localStorage.getItem('admin_token') : null;
     if (token) {

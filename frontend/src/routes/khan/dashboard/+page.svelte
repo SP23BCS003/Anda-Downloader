@@ -3,7 +3,7 @@
   import { API_BASE_URL } from '$lib/api';
   import { goto } from '$app/navigation';
 
-  let adminBasePath = '/admin';
+  let adminBasePath = '/khan';
 
   let stats = {
     total_blogs: 0,
