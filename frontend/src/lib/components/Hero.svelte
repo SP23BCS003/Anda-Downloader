@@ -72,7 +72,7 @@
       </p>
 
       <!-- Input Area -->
-      <div class="bg-white p-1.5 rounded-full shadow-lg border border-gray-200 max-w-2xl mx-auto">
+      <div class="bg-white p-2 sm:p-1.5 rounded-3xl sm:rounded-full shadow-lg border border-gray-200 max-w-2xl mx-auto">
         <!-- Desktop Layout -->
         <div class="hidden sm:flex gap-2 items-center">
           <input 
