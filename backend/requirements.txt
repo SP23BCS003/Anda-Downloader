@@ -3,6 +3,7 @@ uvicorn[standard]
 gunicorn
 yt-dlp @ git+https://github.com/yt-dlp/yt-dlp.git@master
 sqlalchemy
+psycopg2-binary
 pyjwt
 python-multipart
 python-dotenv
